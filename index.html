@@ -70,6 +70,15 @@
         max-height: 100%;
         object-fit: contain;
       }
+      .preview video {
+        max-width: 100%;
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #0b1220;
+        border-radius: 10px;
+      }
       .name {
         font-size: 12px;
         color: #94a3b8;
@@ -161,6 +170,12 @@
         "APP Stone_2026-02-02_10_27/Midias Stone/Peça_WPP_Stone_1080x1080_v2_1_rt87wm.jpg",
         "APP Stone_2026-02-02_10_27/Midias Stone/image_4_1_pfcol5.png",
         "APP Stone_2026-02-02_10_27/Midias Stone/Cartão_Stone_udj540.png",
+        "APP Stone_2026-02-02_10_27/Tutorial ton conta/TON_ANIMA_BANDEIRAS_30s_VERTICAL_LOGO_STONE_2_zpstmu.mov",
+        "APP Stone_2026-02-02_10_27/Tutorial ton conta/Passo_a_Passo_Abertura_e8zqis.mp4",
+        "APP Stone_2026-02-02_10_27/Midias Stone/Link_de_Pagamento_2_ggaskj.mp4",
+        "APP Stone_2026-02-02_10_27/Midias Stone/Resserva_por_valor_1_sz1eqx.mp4",
+        "APP Stone_2026-02-02_10_27/Midias Stone/Acesso_equipe_1_uck17m.mp4",
+        "APP Stone_2026-02-02_10_27/Midias Stone/Reserva_por_recebimento_1_faldhu.mp4",
         "Cloudinary_Archive_2026-02-02_10_27_4_Originals/025-089_Stone_Modelo_Peça_Inside_Sales_0000s_0000_MAQUININHAS_zqnlxi.png",
         "Cloudinary_Archive_2026-02-02_10_27_4_Originals/025-089_Stone_Modelo_Peça_Inside_Sales_0000s_0001_LOGO_hrqhyk.png",
         "Cloudinary_Archive_2026-02-02_10_27_4_Originals/MaquininhaT1Ton_aberta_4_ptlhtg.png",
@@ -173,17 +188,31 @@
 
       const buildCard = (path) => {
         const url = encodeURI(baseUrl + path);
+        const lower = path.toLowerCase();
+        const isVideo = [".mp4", ".mov", ".webm", ".m4v", ".avi", ".mkv"].some(
+          (ext) => lower.endsWith(ext)
+        );
         const card = document.createElement("article");
         card.className = "card";
         card.dataset.path = path.toLowerCase();
 
         const preview = document.createElement("div");
         preview.className = "preview";
-        const img = document.createElement("img");
-        img.loading = "lazy";
-        img.alt = path;
-        img.src = url;
-        preview.appendChild(img);
+        if (isVideo) {
+          const video = document.createElement("video");
+          video.src = url;
+          video.controls = true;
+          video.preload = "metadata";
+          video.muted = true;
+          video.playsInline = true;
+          preview.appendChild(video);
+        } else {
+          const img = document.createElement("img");
+          img.loading = "lazy";
+          img.alt = path;
+          img.src = url;
+          preview.appendChild(img);
+        }
 
         const name = document.createElement("div");
         name.className = "name";
@@ -212,7 +241,7 @@
       const render = (items) => {
         grid.innerHTML = "";
         items.forEach((path) => grid.appendChild(buildCard(path)));
-        count.textContent = `${items.length} imagem(ns)`;
+        count.textContent = `${items.length} mídia(s)`;
       };
 
       render(files);
