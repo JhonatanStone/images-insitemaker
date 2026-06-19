@@ -79,6 +79,28 @@
         background: #0b1220;
         border-radius: 10px;
       }
+      .preview embed,
+      .preview iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background: #0b1220;
+        border-radius: 10px;
+      }
+      .preview .pdf-fallback {
+        display: grid;
+        place-items: center;
+        gap: 8px;
+        padding: 12px;
+        text-align: center;
+        color: #cbd5f5;
+      }
+      .preview .pdf-fallback .badge {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #f87171;
+      }
       .name {
         font-size: 12px;
         color: #94a3b8;
@@ -133,6 +155,7 @@
         const isVideo = [".mp4", ".mov", ".webm", ".m4v", ".avi", ".mkv"].some(
           (ext) => lower.endsWith(ext)
         );
+        const isPdf = lower.endsWith(".pdf");
         const card = document.createElement("article");
         card.className = "card";
         card.dataset.path = path.toLowerCase();
@@ -147,6 +170,22 @@
           video.muted = true;
           video.playsInline = true;
           preview.appendChild(video);
+        } else if (isPdf) {
+          const embed = document.createElement("embed");
+          embed.src = url + "#toolbar=0&navpanes=0&view=FitH";
+          embed.type = "application/pdf";
+          embed.addEventListener("error", () => {
+            preview.innerHTML = "";
+            const fallback = document.createElement("a");
+            fallback.className = "pdf-fallback";
+            fallback.href = url;
+            fallback.target = "_blank";
+            fallback.rel = "noopener";
+            fallback.innerHTML =
+              '<span class="badge">PDF</span><span>Abrir documento</span>';
+            preview.appendChild(fallback);
+          });
+          preview.appendChild(embed);
         } else {
           const img = document.createElement("img");
           img.loading = "lazy";

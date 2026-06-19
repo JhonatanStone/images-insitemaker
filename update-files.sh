@@ -5,7 +5,7 @@ export ROOT_DIR
 python3 - <<'PY'
 import json, os
 root = os.environ.get('ROOT_DIR', '.')
-allowed = {'.png','.jpg','.jpeg','.webp','.gif','.svg','.mp4','.mov','.webm','.m4v','.avi','.mkv'}
+allowed = {'.png','.jpg','.jpeg','.webp','.gif','.svg','.mp4','.mov','.webm','.m4v','.avi','.mkv','.pdf'}
 files=[]
 for dirpath, _, filenames in os.walk(root):
     if '/.git' in dirpath:

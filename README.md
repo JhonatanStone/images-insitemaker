@@ -38,3 +38,5 @@ git push
 Imagens: `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif`, `.svg`
 
 Vídeos: `.mp4`, `.mov`, `.webm`, `.m4v`, `.avi`, `.mkv`
+
+Documentos: `.pdf`
